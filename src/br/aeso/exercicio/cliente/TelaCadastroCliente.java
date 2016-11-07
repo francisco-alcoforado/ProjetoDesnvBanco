@@ -9,13 +9,52 @@ public class TelaCadastroCliente {
 	private static Scanner teclado = new Scanner(System.in);
 	public static void main(String args[]) throws IllegalArgumentException, CPFInvalidoException, ClienteJaCadastradoException, ClienteNaoExncontradoException{
 		Fachada fachada = new Fachada();
-		Cliente cliente = TelaCadastroCliente.cadastrarCliente();
-		try{
-			fachada.cadastrarCliente(cliente);
-		}catch(Exception e){
-			System.out.println(e.getMessage());
+		System.out.println("Escolha a sua Opção: ");
+		System.out.println("1 - Cadastrar, 2 - lista, 3 - remover:");
+		int opcao = teclado.nextInt();
+		if(opcao == 1){
+			try{
+				Cliente cliente = TelaCadastroCliente.cadastrarCliente();
+				fachada.cadastrarCliente(cliente);
+			}catch(Exception e){
+				System.out.println(e.getMessage());
+			}
+		}else if(opcao == 2){
+			try{
+				ArrayList<Cliente> lista = fachada.listarCliente();
+				TelaCadastroCliente.montarDisplay(lista);
+			}catch(Exception e){
+				
+			}
+		}else if(opcao == 3){
+			System.out.println("Digite o Codigo:");
+			int codigo = teclado.nextInt();
+			try{
+				fachada.removerCliente(codigo);
+				ArrayList<Cliente> lista = fachada.listarCliente();
+				TelaCadastroCliente.montarDisplay(lista);
+			}catch(Exception e){
+				
+			}
 		}
 		
+	}
+	public static void montarDisplay(ArrayList<Cliente> lista){
+		System.out.println("Codigo \tNome \tEmail \tCPF \tEmail");
+		for(Cliente cliente : lista){
+			System.out.print(cliente.getCodigo());
+			System.out.print("\t");
+			System.out.print(cliente.getNome());
+			System.out.print("\t");
+			System.out.print(cliente.getCpf());
+			System.out.print("\t");
+			System.out.print(cliente.getCEP());
+			System.out.print("\t");
+			if(cliente.getEmails().size() > 0){
+				System.out.print(cliente.getEmails().get(0).getEmail());
+			}
+			System.out.print("\n");
+		}
 	}
 	public static Cliente cadastrarCliente(){
 		System.out.println("Cadastro de CLiente: ");

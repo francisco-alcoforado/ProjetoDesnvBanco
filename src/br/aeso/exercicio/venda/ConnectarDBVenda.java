@@ -3,6 +3,7 @@ package br.aeso.exercicio.venda;
 import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Map;
 
@@ -20,7 +21,7 @@ public class ConnectarDBVenda {
 	private BancoDeDados banco;
 
 	public ConnectarDBVenda() throws SQLException {
-		this.banco = BancoDeDados.getBancoDeDados("jdbc:mysql://servidor/BancoProjeto", "root", "");
+		this.banco = BancoDeDados.getBancoDeDados("jdbc:mysql://localhost/projeto_banco", "root", "cavaco");
 
 	}
 
@@ -52,16 +53,20 @@ public class ConnectarDBVenda {
 	}
 
 	public void cadastrar(Venda venda) throws SQLException {
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		String data = sdf.format(venda.getData_Venda());
 		String sql = "INSERT INTO Venda (Codigo_Pedido, Codigo_Produto, Quantidade, Valor, Data_Venda) VALUES ("
-				+ venda.getPedido().getCodigo() + ", " + venda.getProduto().getCodigo() + ", " + venda.getCodigo()
-				+ ", " + venda.getData_Venda() + ", '" + venda.getData_Venda() + "')";
+				+ venda.getPedido().getCodigo() + ", " + venda.getProduto().getCodigo() + ", " + venda.getQuantidade()
+				+ ", " + venda.getValor() + ", '" + data + "')";
 		this.banco.cadastrar(sql);
 	}
 
 	public void atualizar(Venda venda) throws SQLException {
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		String data = sdf.format(venda.getData_Venda());
 		String sql = "UPDATE Venda SET Codigo_Pedido = " + venda.getPedido().getCodigo() + ", Codigo_Produto = "
 				+ venda.getProduto().getCodigo() + ", Quantidade = " + venda.getQuantidade() + ", Valor = "
-				+ venda.getValor() + ", Data_Venda = '" + venda.getData_Venda() +"' WHERE Codigo = " + venda.getCodigo();
+				+ venda.getValor() + ", Data_Venda = '" + data +"' WHERE Codigo = " + venda.getCodigo();
 		this.banco.atualizar(sql);
 	}
 
@@ -69,7 +74,11 @@ public class ConnectarDBVenda {
 		String sql = "DELETE FROM Venda WHERE Codigo = " + venda.getCodigo();
 		this.banco.remove(sql);
 	}
-
+	
+	public void remover(int codigo) throws SQLException {
+		String sql = "DELETE FROM Venda WHERE Codigo = " + codigo;
+		this.banco.remove(sql);
+	}
 	public ArrayList<Venda> procurar(Map<String, Object> valores) throws SQLException, ClassNotFoundException, ProdutoNaoEncontradoException, IOException, PedidoNaoEncontradoException, ClienteNaoExncontradoException, VendedorNaoEncontradoException {
 		String sql = "SELECT * FROM Venda WHERE ";
 		int i = 0;

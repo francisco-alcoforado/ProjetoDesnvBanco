@@ -15,7 +15,7 @@ public class ConnectarDBProduto {
 	private BancoDeDados banco;
 
 	public ConnectarDBProduto() throws SQLException {
-		this.banco = BancoDeDados.getBancoDeDados("jdbc:mysql://servidor/BancoProjeto", "root", "");
+		this.banco = BancoDeDados.getBancoDeDados("jdbc:mysql://localhost/projeto_banco", "root", "cavaco");
 	}
 
 	public ArrayList<Produto> listar()
@@ -24,7 +24,7 @@ public class ConnectarDBProduto {
 		ResultSet rst = this.banco.listar(sql);
 		ArrayList<Produto> lista = new ArrayList<Produto>();
 		while (rst.next()) {
-			Fornecedor fornecedor = this.getFornecedor(rst.getInt("Codigo"));
+			Fornecedor fornecedor = this.getFornecedor(rst.getInt("Codigo_Fornecedor"));
 			Produto produto = new Produto(rst.getInt("Codigo"), rst.getString("Nome"), rst.getDouble("Valor"),
 					rst.getString("Categoria"), fornecedor);
 			lista.add(produto);
@@ -54,7 +54,10 @@ public class ConnectarDBProduto {
 		String sql = "DELETE FROM Produto WHERE Codigo = " + produto.getCodigo();
 		this.banco.remove(sql);
 	}
-
+	public void remover(int codigo) throws SQLException {
+		String sql = "DELETE FROM Produto WHERE Codigo = " + codigo;
+		this.banco.remove(sql);
+	}
 	public ArrayList<Produto> procurar(Map<String, Object> valores) throws SQLException, ClassNotFoundException, FornecedorNaoEncontradoException, IOException {
 		String sql = "SELECT * FROM Produto WHERE ";
 		int i = 0;

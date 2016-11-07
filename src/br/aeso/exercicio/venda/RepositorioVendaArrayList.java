@@ -38,10 +38,6 @@ public class RepositorioVendaArrayList implements IRepositorioVenda{
 		return this.vendas;
 	}
 	public boolean remover(Venda venda)  throws VendaNaoEncontradaException, IOException{
-		int index = this.vendas.indexOf(venda);
-		if(index == -1){
-			throw new VendaNaoEncontradaException();
-		}
 		try {
 			this.banco.remover(venda);
 		} catch (SQLException e) {
@@ -50,19 +46,14 @@ public class RepositorioVendaArrayList implements IRepositorioVenda{
 		}
 		return true;
 	}
-	public boolean remover(double codigo){
-		for(Venda venda : this.vendas){
-			if(venda.getCodigo() == codigo){
-				try {
-					this.banco.remover(venda);
-				} catch (SQLException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				return true;
-			}
+	public boolean remover(int codigo){
+		try {
+			this.banco.remover(codigo);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
-		return false;
+		return true;
 	}
 	public Venda procurar(double codigo) throws ClassNotFoundException, SQLException, ProdutoNaoEncontradoException, IOException, PedidoNaoEncontradoException{
 		Map<String, Object> valores = new HashMap<String, Object>();
@@ -100,9 +91,6 @@ public class RepositorioVendaArrayList implements IRepositorioVenda{
 		return vendaResp;
 	}
 	public void atualizar(Venda venda){
-		if(!this.vendas.contains(vendas)){
-			this.cadastrar(venda);
-		}
 		try {
 			this.banco.atualizar(venda);
 		} catch (SQLException e) {

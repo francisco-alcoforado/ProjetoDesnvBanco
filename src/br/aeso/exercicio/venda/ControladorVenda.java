@@ -29,9 +29,6 @@ public class ControladorVenda {
 		if(venda == null){
 			throw new IllegalArgumentException();
 		}
-		if(this.procurar(venda.getCodigo()) != null){
-			throw new VendaJaCadastradaException();
-		}
 		
 		//Imprimir as informações do venda.
 		this.repositorio.cadastrar(venda);
@@ -55,8 +52,8 @@ public class ControladorVenda {
 		
 		return venda;
 	}
-	public ArrayList<Venda> listar(){
-		ArrayList<Venda> lista = new ArrayList<Venda>();
+	public ArrayList<Venda> listar() throws ClassNotFoundException, SQLException, ProdutoNaoEncontradoException, IOException, PedidoNaoEncontradoException{
+		ArrayList<Venda> lista = this.repositorio.listar();
 		return lista;
 	}
 }

@@ -120,9 +120,9 @@ public class Fachada {
 		this.controladorVendedor = new ControladorVendedor();
 		this.controladorVendedor.atualizar(vendedor);
 	}
-	public boolean removerVendedor(int codigo) throws ClassNotFoundException, IOException, SQLException, ClienteNaoExncontradoException{
+	public boolean removerVendedor(int codigo) throws ClassNotFoundException, IOException, SQLException, ClienteNaoExncontradoException, VendedorNaoEncontradoException{
 		this.controladorVendedor = new ControladorVendedor();
-		boolean retorno = this.controladorCliente.remover(codigo);
+		boolean retorno = this.controladorVendedor.remover(codigo);
 		return retorno;
 	}
 	public Vendedor procurarVendedor(int codigo) throws ClassNotFoundException, IOException, SQLException, VendedorNaoEncontradoException{
@@ -145,7 +145,7 @@ public class Fachada {
 		this.controladorFornecedor = new ControladorFornecedor();
 		this.controladorFornecedor.atualizar(fornecedor);
 	}
-	public boolean removerFornecedor(String codigo) throws FornecedorNaoEncontradoException, ClassNotFoundException, IOException, SQLException{
+	public boolean removerFornecedor(int codigo) throws FornecedorNaoEncontradoException, ClassNotFoundException, IOException, SQLException{
 		this.controladorFornecedor = new ControladorFornecedor();
 		boolean retorno = this.controladorFornecedor.remover(codigo);
 		return retorno;
@@ -203,7 +203,7 @@ public class Fachada {
 		Pedido pedido = this.controladorPedido.procurar(codigo);
 		return pedido;
 	}
-	public ArrayList<Pedido> listarPedido() throws ClassNotFoundException, IOException, SQLException{
+	public ArrayList<Pedido> listarPedido() throws ClassNotFoundException, IOException, SQLException, ClienteNaoExncontradoException, VendedorNaoEncontradoException{
 		this.controladorPedido = new ControladorPedido();
 		ArrayList<Pedido> lista = this.controladorPedido.listar();
 		return lista;
@@ -251,7 +251,7 @@ public class Fachada {
 		Venda venda = this.controladorVenda.procurar(codigo);
 		return venda;
 	}
-	public ArrayList<Venda> listarVenda() throws ClassNotFoundException, IOException, SQLException{
+	public ArrayList<Venda> listarVenda() throws ClassNotFoundException, IOException, SQLException, ProdutoNaoEncontradoException, PedidoNaoEncontradoException{
 		this.controladorVenda = new ControladorVenda();
 		ArrayList<Venda> lista = this.controladorVenda.listar();
 		return lista;

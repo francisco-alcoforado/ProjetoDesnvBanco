@@ -32,33 +32,22 @@ public class RepositorioVendedorArrayList implements IRepositorioVendedor{
 		return this.Vendedors;
 	}
 	public boolean remover(Vendedor Vendedor)  throws VendedorNaoEncontradoException, IOException{
-		int index = this.Vendedors.indexOf(Vendedor);
-		if(index == -1){
-			throw new VendedorNaoEncontradoException();
-		}
 		try {
 			this.banco.remover(Vendedor);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		this.listar();
 		return true;
 	}
-	public boolean remover(double codigo) throws IOException{
-		for(Vendedor Vendedor : this.Vendedors){
-			if(Vendedor.getCodigo() == codigo){
-				try {
-					this.banco.remover(Vendedor);
-				} catch (SQLException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				this.listar();
-				return true;
-			}
+	public boolean remover(int codigo) throws IOException{
+		try {
+			this.banco.remover(codigo);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
-		return false;
+		return true;
 	}
 	public Vendedor procurar(double codigo) throws SQLException{
 		Map<String, Object> valores = new HashMap<String, Object>();

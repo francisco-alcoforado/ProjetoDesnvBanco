@@ -10,7 +10,7 @@ import br.aeso.exercicio.database.BancoDeDados;
 public class ConnectarDBVendedor {
 	private BancoDeDados banco;
 	public ConnectarDBVendedor() throws SQLException {
-		this.banco = BancoDeDados.getBancoDeDados("jdbc:mysql://servidor/BancoProjeto", "root", "");
+		this.banco = BancoDeDados.getBancoDeDados("jdbc:mysql://localhost/projeto_banco", "root", "cavaco");
 		
 	}
 
@@ -21,7 +21,7 @@ public class ConnectarDBVendedor {
 		while(rst.next()){
 			ArrayList<EmailVendedor> emails = this.getEmails(rst.getInt("Codigo"));
 			ArrayList<TelefoneVendedor> telefones = this.getTelefones(rst.getInt("Codigo"));
-			Vendedor Vendedor = new Vendedor(rst.getInt("Codigo"), rst.getString("Nome"), rst.getString("senha"), rst.getString("CPF"), rst.getString("Rua"), rst.getString("Bairro"), rst.getString("Cidade"), rst.getString("CEP"), rst.getInt("Numero"), rst.getString("Complemeto"), telefones, emails);
+			Vendedor Vendedor = new Vendedor(rst.getInt("Codigo"), rst.getString("Nome"), rst.getString("Senha"), rst.getString("CPF"), rst.getString("Rua"), rst.getString("Bairro"), rst.getString("Cidade"), rst.getString("CEP"), rst.getInt("Numero"), rst.getString("Complemento"), telefones, emails);
 			lista.add(Vendedor);
 		}
 		return lista;
@@ -31,7 +31,7 @@ public class ConnectarDBVendedor {
 		ResultSet rst = this.banco.listar(sql);
 		ArrayList<EmailVendedor> lista = new ArrayList<EmailVendedor>();
 		while(rst.next()){
-			EmailVendedor email = new EmailVendedor(rst.getInt("Codigo"), rst.getString("Email"), rst.getInt("Priamrio"));
+			EmailVendedor email = new EmailVendedor(rst.getInt("Codigo"), rst.getString("Email"), rst.getInt("Primario"));
 			lista.add(email);
 		}
 		return lista;
@@ -48,13 +48,13 @@ public class ConnectarDBVendedor {
 	}
 	public void cadastrar(Vendedor Vendedor) throws SQLException{
 		String sql = "INSERT INTO Vendedor (Nome, Senha, CPF, Rua, Bairro, Cidade, CEP, Numero, Complemento) VALUE ('" + Vendedor.getNome() + "', '" + Vendedor.getSenha() + "', '" + Vendedor.getCpf() + "', '" + Vendedor.getRua() + "', '" + Vendedor.getBairro() + "', '" + Vendedor.getCidade() + "', '" + Vendedor.getCEP()  + "', " + Vendedor.getNumero() + ", '" + Vendedor.getComplemento() + "')";
-		this.banco.cadastrar(sql);
+		int codigo = this.banco.cadastrar(sql);
 		for(EmailVendedor email : Vendedor.getEmails()){
-			String sqlEmail = "INSERT INTO Email_Vendedor (Email, Primario, Codigo_Vendedor) VALUES ('" + email.getEmail() + "', " + email.getPrimario() + ", " + Vendedor.getCodigo() +")";;
+			String sqlEmail = "INSERT INTO Email_Vendedor (Email, Primario, Codigo_Vendedor) VALUES ('" + email.getEmail() + "', " + email.getPrimario() + ", " + codigo +")";;
 			this.banco.cadastrar(sqlEmail);
 		}
 		for(TelefoneVendedor telefone : Vendedor.getTelefones()){
-			String sqlTelefone = "INSERT INTO Telefone_Vendedor (Email, Codigo_Vendedor) VALUES ('" + telefone.getTelefone() + "', " + Vendedor.getCodigo() +")";
+			String sqlTelefone = "INSERT INTO Telefone_Vendedor (Telefone, Codigo_Vendedor) VALUES ('" + telefone.getTelefone() + "', " + codigo +")";
 			this.banco.cadastrar(sqlTelefone);
 		}
 	}
@@ -76,6 +76,14 @@ public class ConnectarDBVendedor {
 		String sql = "DELETE FROM Vendedor WHERE Codigo = " + Vendedor.getCodigo();
 		String sqlEmail = "DELETE FROM Email_Vendedor WHERE Codigo_Vendedor = " + Vendedor.getCodigo();
 		String sqlTelefone = "DELETE FROM Telefone_Vendedor WHERE Codigo_Vendedor = " + Vendedor.getCodigo();
+		this.banco.remove(sqlEmail);
+		this.banco.remove(sqlTelefone);
+		this.banco.remove(sql);
+	}
+	public void remover(int codigo) throws SQLException{
+		String sql = "DELETE FROM Vendedor WHERE Codigo = " + codigo;
+		String sqlEmail = "DELETE FROM Email_Vendedor WHERE Codigo_Vendedor = " + codigo;
+		String sqlTelefone = "DELETE FROM Telefone_Vendedor WHERE Codigo_Vendedor = " + codigo;
 		this.banco.remove(sqlEmail);
 		this.banco.remove(sqlTelefone);
 		this.banco.remove(sql);
@@ -104,7 +112,7 @@ public class ConnectarDBVendedor {
 		while(rst.next()){
 			ArrayList<EmailVendedor> emails = this.getEmails(rst.getInt("Codigo"));
 			ArrayList<TelefoneVendedor> telefones = this.getTelefones(rst.getInt("Codigo"));
-			Vendedor Vendedor = new Vendedor(rst.getInt("Codigo"), rst.getString("Nome"), rst.getString("senha"), rst.getString("CPF"), rst.getString("Rua"), rst.getString("Bairro"), rst.getString("Cidade"), rst.getString("CEP"), rst.getInt("Numero"), rst.getString("Complemeto"), telefones, emails);
+			Vendedor Vendedor = new Vendedor(rst.getInt("Codigo"), rst.getString("Nome"), rst.getString("senha"), rst.getString("CPF"), rst.getString("Rua"), rst.getString("Bairro"), rst.getString("Cidade"), rst.getString("CEP"), rst.getInt("Numero"), rst.getString("Complemento"), telefones, emails);
 			lista.add(Vendedor);
 		}
 		

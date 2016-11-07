@@ -31,11 +31,7 @@ public class RepositorioClienteArrayList implements IRepositorioCliente{
 		}
 		return this.clientes;
 	}
-	public boolean remover(Cliente cliente)  throws ClienteNaoExncontradoException, IOException{
-		int index = this.clientes.indexOf(cliente);
-		if(index == -1){
-			throw new ClienteNaoExncontradoException();
-		}
+	/*public boolean remover(Cliente cliente)  throws ClienteNaoExncontradoException, IOException{
 		try {
 			this.banco.remover(cliente);
 		} catch (SQLException e) {
@@ -44,21 +40,15 @@ public class RepositorioClienteArrayList implements IRepositorioCliente{
 		}
 		this.listar();
 		return true;
-	}
-	public boolean remover(double codigo) throws IOException{
-		for(Cliente cliente : this.clientes){
-			if(cliente.getCodigo() == codigo){
-				try {
-					this.banco.remover(cliente);
-				} catch (SQLException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				this.listar();
-				return true;
-			}
+	}*/
+	public boolean remover(int codigo) throws IOException{
+		try {
+			this.banco.remover(codigo);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
-		return false;
+		return true;
 	}
 	public Cliente procurar(double codigo) throws SQLException{
 		Map<String, Object> valores = new HashMap<String, Object>();

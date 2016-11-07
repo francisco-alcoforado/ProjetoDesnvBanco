@@ -10,7 +10,7 @@ import br.aeso.exercicio.vendedor.VendedorNaoEncontradoException;
 public interface IRepositorioPedido {
 	public void cadastrar(Pedido pedido);
 	public void atualizar(Pedido pedido);
-	public boolean remover(double codigo);
+	public boolean remover(int codigo);
 	public Pedido procurar(double codigo) throws ClassNotFoundException, SQLException, ClienteNaoExncontradoException, IOException, VendedorNaoEncontradoException;
-	public ArrayList<Pedido> listar();
+	public ArrayList<Pedido> listar() throws ClassNotFoundException, SQLException, ClienteNaoExncontradoException, IOException, VendedorNaoEncontradoException;
 }

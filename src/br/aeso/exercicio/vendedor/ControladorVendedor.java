@@ -20,20 +20,14 @@ public class ControladorVendedor {
 		if(Vendedor == null){
 			throw new IllegalArgumentException();
 		}
-		if(this.procurar(Vendedor.getCodigo()) != null){
-			throw new VendedorJaCadastradoException();
-		}
-		
 		//Imprimir as informações do Vendedor.
 		this.repositorio.cadastrar(Vendedor);
 	}
 	public void atualizar(Vendedor Vendedor) throws IOException, VendedorNaoEncontradoException, SQLException{
-		if(this.procurar(Vendedor.getCodigo()) == null){
-			throw new VendedorNaoEncontradoException();
-		}
 		this.repositorio.atualizar(Vendedor);
 	}
 	public boolean remover(int codigo) throws VendedorNaoEncontradoException, IOException{
+		System.out.println(codigo);
 		boolean retorno = this.repositorio.remover(codigo);
 		if(retorno == false){
 			throw new VendedorNaoEncontradoException();
@@ -50,7 +44,7 @@ public class ControladorVendedor {
 		return Vendedor;
 	}
 	public ArrayList<Vendedor> listar(){
-		ArrayList<Vendedor> lista = new ArrayList<Vendedor>();
+		ArrayList<Vendedor> lista = this.repositorio.listar();
 		return lista;
 	}
 }

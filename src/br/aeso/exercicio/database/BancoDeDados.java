@@ -21,6 +21,7 @@ public class BancoDeDados {
 	}
 	public ResultSet listar(String sql) throws SQLException{
 		try{
+			System.out.println(sql);
 			Statement stmt = this.conn.createStatement();
 			ResultSet rst = stmt.executeQuery(sql);
 			return rst;
@@ -30,9 +31,13 @@ public class BancoDeDados {
 	}
 	public int cadastrar(String sql) throws SQLException{
 		try{
-		  Statement stmt = this.conn.createStatement();
 		  System.out.println(sql);
-		  return stmt.executeUpdate(sql,  Statement.RETURN_GENERATED_KEYS);
+		  Statement stmt = this.conn.createStatement();
+		  stmt.executeUpdate(sql,  Statement.RETURN_GENERATED_KEYS);
+		  ResultSet rs = stmt.getGeneratedKeys();
+		  rs.next();
+		  int codigo = rs.getInt(1);
+		  return codigo;
 		}catch(Exception e){
 			throw new SQLException();
 		}
@@ -46,6 +51,7 @@ public class BancoDeDados {
 		}
 	}
 	public void remove(String sql) throws SQLException{
+		System.out.println(sql);
 		try{
 		  Statement stmt = this.conn.createStatement();
 		  stmt.executeUpdate(sql);

@@ -73,13 +73,24 @@ public class ConnectarDBCliente {
 			this.banco.atualizar(sqlTelefone);
 		}
 	}
-	public void remover(Cliente cliente) throws SQLException{
+	public boolean remover(Cliente cliente) throws SQLException{
 		String sql = "DELETE FROM Cliente WHERE Codigo = " + cliente.getCodigo();
 		String sqlEmail = "DELETE FROM Email_Cliente WHERE Codigo_Cliente = " + cliente.getCodigo();
 		String sqlTelefone = "DELETE FROM Telefone_Cliente WHERE Codigo_Cliente = " + cliente.getCodigo();
 		this.banco.remove(sqlEmail);
 		this.banco.remove(sqlTelefone);
 		this.banco.remove(sql);
+		return true;
+	}
+	public boolean remover(int codigo) throws SQLException{
+		System.out.println(codigo);
+		String sql = "DELETE FROM Cliente WHERE Codigo = " + codigo;
+		String sqlEmail = "DELETE FROM Email_Cliente WHERE Codigo_Cliente = " + codigo;
+		String sqlTelefone = "DELETE FROM Telefone_Cliente WHERE Codigo_Cliente = " +codigo;
+		this.banco.remove(sqlEmail);
+		this.banco.remove(sqlTelefone);
+		this.banco.remove(sql);
+		return true;
 	}
 	public ArrayList<Cliente> procurar(Map<String, Object> valores) throws SQLException{
 		String sql = "SELECT * FROM Cliente WHERE ";

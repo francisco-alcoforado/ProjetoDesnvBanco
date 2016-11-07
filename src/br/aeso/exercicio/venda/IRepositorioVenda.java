@@ -10,7 +10,7 @@ import br.aeso.exercicio.produto.ProdutoNaoEncontradoException;
 public interface IRepositorioVenda {
 	public void cadastrar(Venda venda);
 	public void atualizar(Venda venda);
-	public boolean remover(double codigo);
+	public boolean remover(int codigo);
 	public Venda procurar(double codigo) throws ClassNotFoundException, SQLException, ProdutoNaoEncontradoException, IOException, PedidoNaoEncontradoException;
 	public ArrayList<Venda> listar() throws ClassNotFoundException, SQLException, ProdutoNaoEncontradoException, IOException, PedidoNaoEncontradoException;
 }

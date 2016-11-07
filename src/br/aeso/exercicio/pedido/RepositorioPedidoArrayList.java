@@ -23,55 +23,29 @@ public class RepositorioPedidoArrayList implements IRepositorioPedido{
 			e.printStackTrace();
 		}
 	}
-	public ArrayList<Pedido> listar(){
-		try {
-			this.pedidos = this.banco.listar();
-		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (ClienteNaoExncontradoException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (VendedorNaoEncontradoException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return this.pedidos;
+	public ArrayList<Pedido> listar() throws ClassNotFoundException, SQLException, ClienteNaoExncontradoException, IOException, VendedorNaoEncontradoException{
+		System.out.println("Cheguei");
+		return this.banco.listar();
+		
 	}
 	public boolean remover(Pedido pedido)  throws PedidoNaoEncontradoException, IOException{
-		int index = this.pedidos.indexOf(pedido);
-		if(index == -1){
-			throw new PedidoNaoEncontradoException();
-		}
 		try {
 			this.banco.remover(pedido);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		this.listar();
 		return true;
 	}
-	public boolean remover(double codigo){
-		for(Pedido pedido : this.pedidos){
-			if(pedido.getCodigo() == codigo){
-				try {
-					this.banco.remover(pedido);
-				} catch (SQLException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				this.listar();
-				return true;
-			}
+	public boolean remover(int codigo){
+		try {
+			this.banco.remover(codigo);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
-		return false;
+		return true;
+		
 	}
 	public Pedido procurar(double codigo) throws ClassNotFoundException, SQLException, ClienteNaoExncontradoException, IOException, VendedorNaoEncontradoException{
 		Map<String, Object> valores = new HashMap<String, Object>();
@@ -101,12 +75,8 @@ public class RepositorioPedidoArrayList implements IRepositorioPedido{
 		return pedidoResp;
 	}
 	public void atualizar(Pedido pedido){
-		if(!this.pedidos.contains(pedidos)){
-			this.cadastrar(pedido);
-		}
 		try {
 			this.banco.atualizar(pedido);
-			this.listar();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

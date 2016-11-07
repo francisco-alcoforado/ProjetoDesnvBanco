@@ -46,33 +46,23 @@ public class RepositorioProdutoArrayList implements IRepositorioProduto{
 		return this.produtos;
 	}
 	public boolean remover(Produto produto)  throws ProdutoNaoEncontradoException, IOException{
-		int index = this.produtos.indexOf(produto);
-		if(index == -1){
-			throw new ProdutoNaoEncontradoException();
-		}
 		try {
 			this.banco.remover(produto);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		this.listar();
 		return true;
 	}
-	public boolean remover(double codigo) throws IOException{
-		for(Produto produto : this.produtos){
-			if(produto.getCodigo() == codigo){
-				try {
-					this.banco.remover(produto);
-				} catch (SQLException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				this.listar();
-				return true;
-			}
+	public boolean remover(int codigo) throws IOException{
+		try {
+			this.banco.remover(codigo);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
-		return false;
+		this.listar();
+		return true;
 	}
 	public Produto procurar(double codigo){
 		Map<String, Object> valores = new HashMap<String, Object>();

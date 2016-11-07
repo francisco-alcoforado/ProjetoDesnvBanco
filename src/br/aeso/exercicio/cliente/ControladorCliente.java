@@ -49,7 +49,7 @@ public class ControladorCliente {
 		return cliente;
 	}
 	public ArrayList<Cliente> listar(){
-		ArrayList<Cliente> lista = new ArrayList<Cliente>();
+		ArrayList<Cliente> lista = this.repositorio.listar();
 		return lista;
 	}
 }

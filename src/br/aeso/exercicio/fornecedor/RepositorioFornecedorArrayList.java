@@ -44,20 +44,14 @@ public class RepositorioFornecedorArrayList implements IRepositorioFornecedor{
 		this.listar();
 		return true;
 	}
-	public boolean remover(double codigo) throws IOException{
-		for(Fornecedor fornecedor : this.fornecedores){
-			if(fornecedor.getCodigo() == codigo){
-				try {
-					this.banco.remover(fornecedor);
-				} catch (SQLException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				this.listar();
-				return true;
-			}
+	public boolean remover(int codigo) throws IOException{
+		try {
+			this.banco.remover(codigo);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
-		return false;
+		return true;
 	}
 	public Fornecedor procurar(double codigo) throws SQLException{
 		Map<String, Object> valores = new HashMap<String, Object>();

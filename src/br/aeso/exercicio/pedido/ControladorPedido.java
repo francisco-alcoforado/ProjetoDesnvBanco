@@ -27,11 +27,6 @@ public class ControladorPedido {
 		if(pedido == null){
 			throw new IllegalArgumentException();
 		}
-		
-		if(this.procurar(pedido.getCodigo()) != null){
-			throw new PedidoJaCadastradoException();
-		}
-		
 		this.repositorio.cadastrar(pedido);
 	}
 	public void atualizar(Pedido pedido) throws IOException{
@@ -51,8 +46,10 @@ public class ControladorPedido {
 		}
 		return pedido;
 	}
-	public ArrayList<Pedido> listar(){
+	public ArrayList<Pedido> listar() throws ClassNotFoundException, SQLException, ClienteNaoExncontradoException, IOException, VendedorNaoEncontradoException{
+		System.out.println("Cheguei Controlador");
 		ArrayList<Pedido> lista = this.repositorio.listar();
+		System.out.println(lista.size());
 		return lista;
 	}
 }

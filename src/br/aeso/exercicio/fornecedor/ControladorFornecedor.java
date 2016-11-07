@@ -25,20 +25,15 @@ public class ControladorFornecedor {
 		if(fornecedor == null){
 			throw new IllegalArgumentException();
 		}
-		
-		if(this.procurar(fornecedor.getCodigo()) != null){
-			throw new FornecedorJaCadastradoException();
-		}
-		
+		System.out.println(fornecedor.getNome());
 		this.repositorio.cadastrar(fornecedor);
 	}
 	public void atualizar(Fornecedor fornecedor) throws CNPJInvalidoException, IOException{
 		
 		this.repositorio.atualizar(fornecedor);
 	}
-	public boolean remover(String codigo) throws FornecedorNaoEncontradoException, IOException{
-		double dbCodigo = Double.parseDouble(codigo);
-		boolean retorno = this.repositorio.remover(dbCodigo);
+	public boolean remover(int codigo) throws FornecedorNaoEncontradoException, IOException{
+		boolean retorno = this.repositorio.remover(codigo);
 		if(retorno == false){
 			throw new FornecedorNaoEncontradoException();
 		}

@@ -11,7 +11,7 @@ public class ConnectarDBFornecedor {
 private BancoDeDados banco;
 	
 	public ConnectarDBFornecedor() throws SQLException {
-		this.banco = BancoDeDados.getBancoDeDados("jdbc:mysql://servidor/BancoProjeto", "root", "");
+		this.banco = BancoDeDados.getBancoDeDados("jdbc:mysql://localhost/projeto_banco", "root", "cavaco");
 		
 	}
 
@@ -28,7 +28,7 @@ private BancoDeDados banco;
 		return lista;
 	}
 	private ArrayList<EmailFornecedor> getEmails(int codigo) throws SQLException{
-		String sql = "SELECT * FROM Email_Forncedor WHERE Codigo_Fornecedor = " + codigo;
+		String sql = "SELECT * FROM Email_Fornecedor WHERE Codigo_Fornecedor = " + codigo;
 		ResultSet rst = this.banco.listar(sql);
 		ArrayList<EmailFornecedor> lista = new ArrayList<EmailFornecedor>();
 		while(rst.next()){
@@ -38,7 +38,7 @@ private BancoDeDados banco;
 		return lista;
 	}
 	private ArrayList<TelefoneFornecedor> getTelefones(int codigo) throws SQLException{
-		String sql = "SELECT * FROM Telefone_Forncedor WHERE Codigo_Fornecedor = " + codigo;
+		String sql = "SELECT * FROM Telefone_Fornecedor WHERE Codigo_Fornecedor = " + codigo;
 		ResultSet rst = this.banco.listar(sql);
 		ArrayList<TelefoneFornecedor> lista = new ArrayList<TelefoneFornecedor>();
 		while(rst.next()){
@@ -49,13 +49,13 @@ private BancoDeDados banco;
 	}
 	public void cadastrar(Fornecedor fornecedor) throws SQLException{
 		String sql = "INSERT INTO Fornecedor (Nome) VALUES ('" + fornecedor.getNome() + "')";
-		this.banco.cadastrar(sql);
+		int codigo = this.banco.cadastrar(sql);
 		for(EmailFornecedor email : fornecedor.getEmails()){
-			String sqlEmail = "INSERT INTO Email_Fornecedor (Email, Primario, Codigo_Fornecedor) VALUES ('" + email.getEmail() + "', " + email.getPrimario() + ", " + fornecedor.getCodigo() +")";
+			String sqlEmail = "INSERT INTO Email_Fornecedor (Email, Primario, Codigo_Fornecedor) VALUES ('" + email.getEmail() + "', " + email.getPrimario() + ", " + codigo +")";
 			this.banco.cadastrar(sqlEmail);
 		}
 		for(TelefoneFornecedor telefone : fornecedor.getTelefones()){
-			String sqlTelefone = "INSERT INTO Telefone_Fornecedor (Email, Codigo_Fornecedor) VALUES ('" + telefone.getTelefone() + "', " + fornecedor.getCodigo() +")";
+			String sqlTelefone = "INSERT INTO Telefone_Fornecedor (Telefone, Codigo_Fornecedor) VALUES ('" + telefone.getTelefone() + "', " + codigo +")";
 			this.banco.cadastrar(sqlTelefone);
 		}
 	}
@@ -75,6 +75,15 @@ private BancoDeDados banco;
 		String sqlEmail = "DELETE FROM Email_Fornecedor WHERE Codigo_Fornecedor = " + fornecedor.getCodigo();
 		String sqlTelefone = "DELETE FROM Telefone_Fornecedor WHERE Codigo_Fornecedor = " + fornecedor.getCodigo();
 		String sql = "DELETE FROM Fornecedor WHERE Codigo = " + fornecedor.getCodigo();
+		this.banco.remove(sqlEmail);
+		this.banco.remove(sqlTelefone);
+		this.banco.remove(sql);
+	}
+	public void remover(int codigo) throws SQLException{
+		System.out.println(codigo);
+		String sqlEmail = "DELETE FROM Email_Fornecedor WHERE Codigo_Fornecedor = " + codigo;
+		String sqlTelefone = "DELETE FROM Telefone_Fornecedor WHERE Codigo_Fornecedor = " + codigo;
+		String sql = "DELETE FROM Fornecedor WHERE Codigo = " + codigo;
 		this.banco.remove(sqlEmail);
 		this.banco.remove(sqlTelefone);
 		this.banco.remove(sql);

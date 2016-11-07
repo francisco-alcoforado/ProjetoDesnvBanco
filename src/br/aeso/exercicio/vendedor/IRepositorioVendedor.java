@@ -7,7 +7,7 @@ import java.util.ArrayList;
 public interface IRepositorioVendedor {
 	public void cadastrar(Vendedor vendedor) throws IOException;
 	public void atualizar(Vendedor vendedor) throws IOException;
-	public boolean remover(double codigo) throws IOException;
+	public boolean remover(int codigo) throws IOException;
 	public Vendedor procurar(double codigo) throws SQLException;
 	public ArrayList<Vendedor> listar();
 }
