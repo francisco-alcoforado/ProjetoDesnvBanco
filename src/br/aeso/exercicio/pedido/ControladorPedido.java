@@ -6,6 +6,7 @@ import java.util.ArrayList;
 
 import br.aeso.exercicio.cliente.ClienteNaoExncontradoException;
 import br.aeso.exercicio.vendedor.VendedorNaoEncontradoException;
+import java.util.Map;
 
 public class ControladorPedido {
 	private IRepositorioPedido repositorio;
@@ -46,9 +47,24 @@ public class ControladorPedido {
 		}
 		return pedido;
 	}
+        public ArrayList<Pedido> procurar(Map<String, Object> valores, String order) throws PedidoNaoEncontradoException, ClassNotFoundException, SQLException, ClienteNaoExncontradoException, IOException, VendedorNaoEncontradoException{
+                RepositorioPedidoArrayList rep = (RepositorioPedidoArrayList) this.repositorio;
+		ArrayList<Pedido> lista = rep.procurar(valores, order);
+		if(lista == null){
+			throw new PedidoNaoEncontradoException();
+		}
+		return lista;
+	}
 	public ArrayList<Pedido> listar() throws ClassNotFoundException, SQLException, ClienteNaoExncontradoException, IOException, VendedorNaoEncontradoException{
 		System.out.println("Cheguei Controlador");
 		ArrayList<Pedido> lista = this.repositorio.listar();
+		System.out.println(lista.size());
+		return lista;
+	}
+        public ArrayList<Pedido> listar(String orderBy) throws ClassNotFoundException, SQLException, ClienteNaoExncontradoException, IOException, VendedorNaoEncontradoException{
+		System.out.println("Cheguei Controlador");
+                RepositorioPedidoArrayList rep = (RepositorioPedidoArrayList) this.repositorio;
+		ArrayList<Pedido> lista = rep.listar(orderBy);
 		System.out.println(lista.size());
 		return lista;
 	}

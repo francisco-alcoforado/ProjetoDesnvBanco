@@ -29,59 +29,26 @@ public class RepositorioNotaFiscalArrayList implements IRepositorioNotaFiscal{
 			e.printStackTrace();
 		}
 	}
-	public ArrayList<NotaFiscal> listar(){
-		try {
-			this.notaFiscals = this.banco.listar();
-		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (PedidoNaoEncontradoException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (ClienteNaoExncontradoException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (VendedorNaoEncontradoException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		return this.notaFiscals;
+	public ArrayList<NotaFiscal> listar() throws SQLException, ClassNotFoundException, PedidoNaoEncontradoException, IOException, ClienteNaoExncontradoException, VendedorNaoEncontradoException{
+		return this.banco.listar();
 	}
 	public boolean remover(NotaFiscal notaFiscal)  throws NotaFiscalNaoEncontradaException, IOException{
-		int index = this.notaFiscals.indexOf(notaFiscal);
-		if(index == -1){
-			throw new NotaFiscalNaoEncontradaException();
-		}
 		try {
 			this.banco.remover(notaFiscal);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		this.listar();
 		return true;
 	}
 	public boolean remover(int codigo){
-		for(NotaFiscal notaFiscal : this.notaFiscals){
-			if(notaFiscal.getCodigo() == codigo){
-				try {
-					this.banco.remover(notaFiscal);
-				} catch (SQLException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				this.listar();
-				return true;
-			}
+		try {
+			this.banco.remover(codigo);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
-		return false;
+		return true;
 	}
 	public NotaFiscal procurar(int codigo) throws ClassNotFoundException, SQLException, PedidoNaoEncontradoException, IOException{
 		Map<String, Object> valores = new HashMap<String, Object>();
@@ -127,12 +94,8 @@ public class RepositorioNotaFiscalArrayList implements IRepositorioNotaFiscal{
 		return notaFiscalResp;
 	}
 	public void atualizar(NotaFiscal notaFiscal){
-		if(!this.notaFiscals.contains(notaFiscals)){
-			this.cadastrar(notaFiscal);
-		}
 		try {
 			this.banco.atualizar(notaFiscal);
-			this.listar();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

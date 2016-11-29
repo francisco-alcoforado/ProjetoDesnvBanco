@@ -27,6 +27,7 @@ import br.aeso.exercicio.vendedor.Vendedor;
 import br.aeso.exercicio.vendedor.VendedorJaCadastradoException;
 import br.aeso.exercicio.vendedor.VendedorNaoEncontradoException;
 import br.aeso.exercicio.venda.*;
+import java.util.Map;
 
 public class Fachada {
 	private ControladorCliente controladorCliente;
@@ -203,6 +204,16 @@ public class Fachada {
 		Pedido pedido = this.controladorPedido.procurar(codigo);
 		return pedido;
 	}
+        public ArrayList<Pedido> relatorioPedido(Map<String, Object> valores, String order) throws ClassNotFoundException, IOException, SQLException, PedidoNaoEncontradoException, ClienteNaoExncontradoException, VendedorNaoEncontradoException{
+                this.controladorPedido = new ControladorPedido();
+                ArrayList<Pedido> lista = this.controladorPedido.procurar(valores, order);
+                return lista;
+        }
+        public ArrayList<Pedido> relatorioPedido(String order) throws ClassNotFoundException, IOException, SQLException, PedidoNaoEncontradoException, ClienteNaoExncontradoException, VendedorNaoEncontradoException{
+                this.controladorPedido = new ControladorPedido();
+                ArrayList<Pedido> lista = this.controladorPedido.listar(order);
+                return lista;
+        }
 	public ArrayList<Pedido> listarPedido() throws ClassNotFoundException, IOException, SQLException, ClienteNaoExncontradoException, VendedorNaoEncontradoException{
 		this.controladorPedido = new ControladorPedido();
 		ArrayList<Pedido> lista = this.controladorPedido.listar();

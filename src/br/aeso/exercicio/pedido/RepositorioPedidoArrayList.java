@@ -28,6 +28,11 @@ public class RepositorioPedidoArrayList implements IRepositorioPedido{
 		return this.banco.listar();
 		
 	}
+        public ArrayList<Pedido> listar(String orderBy) throws ClassNotFoundException, SQLException, ClienteNaoExncontradoException, IOException, VendedorNaoEncontradoException{
+		System.out.println("Cheguei");
+		return this.banco.listar(orderBy);
+		
+	}
 	public boolean remover(Pedido pedido)  throws PedidoNaoEncontradoException, IOException{
 		try {
 			this.banco.remover(pedido);
@@ -60,6 +65,15 @@ public class RepositorioPedidoArrayList implements IRepositorioPedido{
 		Pedido pedido = lista.get(0);
 		return pedido;
 		
+	}
+        public ArrayList<Pedido> procurar(Map<String, Object> valores, String order) throws ClassNotFoundException, SQLException, ClienteNaoExncontradoException, IOException, VendedorNaoEncontradoException{
+		ArrayList<Pedido> lista = null;
+		lista = this.banco.procurar(valores, order);
+		
+		if(lista == null){
+			return null;
+		}
+                return lista;		
 	}
 	public Pedido procurar(Pedido pedido) throws ClassNotFoundException, SQLException, ClienteNaoExncontradoException, IOException, VendedorNaoEncontradoException{
 		Map<String, Object> valores = new HashMap<String, Object>();

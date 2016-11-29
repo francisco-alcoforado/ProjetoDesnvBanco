@@ -80,9 +80,6 @@ public class RepositorioFornecedorArrayList implements IRepositorioFornecedor{
 		return fornecedorResp;
 	}
 	public void atualizar(Fornecedor fornecedor) throws IOException{
-		if(!this.fornecedores.contains(fornecedor)){
-			this.cadastrar(fornecedor);
-		}
 		try {
 			this.banco.atualizar(fornecedor);
 			this.listar();

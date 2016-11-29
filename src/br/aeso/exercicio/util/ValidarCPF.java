@@ -2,8 +2,8 @@ package br.aeso.exercicio.util;
 
 public class ValidarCPF {
 	public static boolean CPF (String strCpf ) {
-		  
-	    int     d1, d2;
+            return true;
+	    /*int     d1, d2;
 	    int     digito1, digito2, resto;
 	    int     digitoCPF;
 	    String  nDigResult;
@@ -40,6 +40,6 @@ public class ValidarCPF {
 
 	    nDigResult = String.valueOf(digito1) + String.valueOf(digito2);
 
-	    return nDigVerific.equals(nDigResult);
+	    return nDigVerific.equals(nDigResult);*/
 	 }
 }

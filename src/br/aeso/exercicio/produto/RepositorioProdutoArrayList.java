@@ -110,9 +110,6 @@ public class RepositorioProdutoArrayList implements IRepositorioProduto{
 		return produtoResp;
 	}
 	public void atualizar(Produto produto) throws IOException{
-		if(!this.produtos.contains(produtos)){
-			this.cadastrar(produto);
-		}
 		try {
 			this.banco.atualizar(produto);
 			this.listar();

@@ -12,12 +12,13 @@ import br.aeso.exercicio.pedido.ControladorPedido;
 import br.aeso.exercicio.pedido.Pedido;
 import br.aeso.exercicio.pedido.PedidoNaoEncontradoException;
 import br.aeso.exercicio.vendedor.VendedorNaoEncontradoException;
+import java.text.SimpleDateFormat;
 
 public class ConnectarDBNotaFiscal {
 	private BancoDeDados banco;
 
 	public ConnectarDBNotaFiscal() throws SQLException {
-		this.banco = BancoDeDados.getBancoDeDados("jdbc:mysql://servidor/BancoProjeto", "root", "");
+		this.banco = BancoDeDados.getBancoDeDados("jdbc:mysql://servidor/projeto_banco", "root", "cavaco");
 
 	}
 
@@ -41,15 +42,19 @@ public class ConnectarDBNotaFiscal {
 	}
 
 	public void cadastrar(NotaFiscal notaFiscal) throws SQLException {
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		String data = sdf.format(notaFiscal.getData_Emissao());
 		String sql = "INSERT INTO Nota_Fiscal (Emitente, Codigo_Pedido, Data_Emissao) VALUES ('"
 				+ notaFiscal.getEmitente() + "', " + notaFiscal.getPedido().getCodigo() + ", '"
-				+ notaFiscal.getData_Emissao().toString() + "')";
+				+ data + "')";
 		this.banco.cadastrar(sql);
 	}
 
 	public void atualizar(NotaFiscal notaFiscal) throws SQLException {
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		String data = sdf.format(notaFiscal.getData_Emissao());
 		String sql = "UPDATE Nota_Fiscal SET Emitente = '" + notaFiscal.getEmitente() + "', Codigo_Pedido = "
-				+ notaFiscal.getPedido().getCodigo() + ", Data_Emissao = '" + notaFiscal.getData_Emissao().toString() + "' WHERE Codigo = " + notaFiscal.getCodigo();
+				+ notaFiscal.getPedido().getCodigo() + ", Data_Emissao = '" + data + "' WHERE Codigo = " + notaFiscal.getCodigo();
 		this.banco.atualizar(sql);
 	}
 
@@ -57,7 +62,12 @@ public class ConnectarDBNotaFiscal {
 		String sql = "DELETE FROM Nota_Fiscal WHERE Codigo = " + notaFiscal.getCodigo();
 		this.banco.remove(sql);
 	}
-
+        
+        public void remover(int codigo) throws SQLException {
+		String sql = "DELETE FROM Nota_Fiscal WHERE Codigo = " + codigo;
+		this.banco.remove(sql);
+	}
+        
 	public ArrayList<NotaFiscal> procurar(Map<String, Object> valores) throws SQLException, ClassNotFoundException, PedidoNaoEncontradoException, IOException, ClienteNaoExncontradoException, VendedorNaoEncontradoException {
 		String sql = "SELECT * FROM Nota_Fiscal WHERE ";
 		int i = 0;

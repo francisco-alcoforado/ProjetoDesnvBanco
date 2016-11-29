@@ -35,7 +35,19 @@ public class ConnectarDBPedido {
 		}
 		return lista;
 	}
-
+        public ArrayList<Pedido> listar(String orderBy) throws SQLException, ClassNotFoundException, ClienteNaoExncontradoException, IOException, VendedorNaoEncontradoException{
+		String sql = "SELECT * FROM Pedido ORDER BY " + orderBy;
+		ResultSet rst = this.banco.listar(sql);
+		ArrayList<Pedido> lista = new ArrayList<Pedido>();
+		while(rst.next()){
+			Cliente cliente = getCliente(rst.getInt("Codigo_Cliente"));
+			Vendedor vendedor = getVendedor(rst.getInt("Codigo_Vendedor"));
+			Pedido pedido = new Pedido(rst.getInt("Codigo"), cliente, vendedor, rst.getDouble("Valor"), rst.getDate("Data_Pedido"));
+			lista.add(pedido);
+		}
+		return lista;
+	}
+        
 	private Cliente getCliente(int codigo)
 			throws SQLException, ClienteNaoExncontradoException, ClassNotFoundException, IOException {
 		ControladorCliente controle = new ControladorCliente();
@@ -67,11 +79,19 @@ public class ConnectarDBPedido {
 	}
 
 	public void remover(Pedido pedido) throws SQLException {
+                String sqlVenda = "DELETE FROM Venda WHERE Codigo_Pedido = " + pedido.getCodigo();
+                String sqlNota = "DELETE FROM Nota_Fiscal WHERE Codigo_Pedido = " + pedido.getCodigo();
 		String sql = "DELETE FROM Pedido WHERE Codigo = " + pedido.getCodigo();
+                this.banco.remove(sqlVenda);
+                this.banco.remove(sqlNota);
 		this.banco.remove(sql);
 	}
 	public void remover(int codigo) throws SQLException {
+                String sqlVenda = "DELETE FROM Venda WHERE Codigo_Pedido = " + codigo;
+                String sqlNota = "DELETE FROM Nota_Fiscal WHERE Codigo_Pedido = " + codigo;
 		String sql = "DELETE FROM Pedido WHERE Codigo = " + codigo;
+                this.banco.remove(sqlVenda);
+                this.banco.remove(sqlNota);
 		this.banco.remove(sql);
 	}
 	public ArrayList<Pedido> procurar(Map<String, Object> valores) throws SQLException, ClassNotFoundException, ClienteNaoExncontradoException, IOException, VendedorNaoEncontradoException {
@@ -93,6 +113,41 @@ public class ConnectarDBPedido {
 			}
 			i++;
 		}
+		ResultSet rst = this.banco.listar(sql);
+		ArrayList<Pedido> lista = new ArrayList<Pedido>();
+		while (rst.next()) {
+			Cliente cliente = getCliente(rst.getInt("Codigo_Cliente"));
+			Vendedor vendedor = getVendedor(rst.getInt("Codigo_Vendedor"));
+			Pedido pedido = new Pedido(rst.getInt("Codigo"), cliente, vendedor, rst.getDouble("Valor"), rst.getDate("Data_Pedido"));
+			lista.add(pedido);
+		}
+		
+		if(lista.size() == 0){
+			return null;
+		}
+		
+		return lista;
+	}
+        public ArrayList<Pedido> procurar(Map<String, Object> valores, String order) throws SQLException, ClassNotFoundException, ClienteNaoExncontradoException, IOException, VendedorNaoEncontradoException {
+		String sql = "SELECT * FROM Pedido WHERE ";
+		int i = 0;
+		for (String key : valores.keySet()) {
+			if (i == 0) {
+				if (valores.get(key) instanceof Integer || valores.get(key) instanceof Double) {
+					sql += key + " = " + valores.get(key);
+				} else if (valores.get(key) instanceof String) {
+					sql += key + " = '" + valores.get(key) + "'";
+				}
+			} else {
+				if (valores.get(key) instanceof Integer || valores.get(key) instanceof Double) {
+					sql += ", " + key + " = " + valores.get(key);
+				} else if (valores.get(key) instanceof String) {
+					sql += ", " + key + " = '" + valores.get(key) + "'";
+				}
+			}
+			i++;
+		}
+                sql += " ORDER BY " + order;
 		ResultSet rst = this.banco.listar(sql);
 		ArrayList<Pedido> lista = new ArrayList<Pedido>();
 		while (rst.next()) {

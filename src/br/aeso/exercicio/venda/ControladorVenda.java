@@ -1,5 +1,7 @@
 package br.aeso.exercicio.venda;
 
+import br.aeso.exercicio.fachada.Fachada;
+import br.aeso.exercicio.pedido.Pedido;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -30,8 +32,13 @@ public class ControladorVenda {
 			throw new IllegalArgumentException();
 		}
 		
-		//Imprimir as informações do venda.
+		//Imprimir as informaï¿½ï¿½es do venda.
 		this.repositorio.cadastrar(venda);
+                Fachada fachada = new Fachada();
+                Pedido pedido = venda.getPedido();
+                double valor = pedido.getValor() + venda.getValor();
+                pedido.setValor(valor);
+                fachada.atualizarPedido(pedido);
 	}
 	public void atualizar(Venda venda) throws IOException{
 		this.repositorio.atualizar(venda);

@@ -9,7 +9,7 @@ public class TelaCadastroCliente {
 	private static Scanner teclado = new Scanner(System.in);
 	public static void main(String args[]) throws IllegalArgumentException, CPFInvalidoException, ClienteJaCadastradoException, ClienteNaoExncontradoException{
 		Fachada fachada = new Fachada();
-		System.out.println("Escolha a sua Opção: ");
+		System.out.println("Escolha a sua Opï¿½ï¿½o: ");
 		System.out.println("1 - Cadastrar, 2 - lista, 3 - remover:");
 		int opcao = teclado.nextInt();
 		if(opcao == 1){
@@ -24,7 +24,7 @@ public class TelaCadastroCliente {
 				ArrayList<Cliente> lista = fachada.listarCliente();
 				TelaCadastroCliente.montarDisplay(lista);
 			}catch(Exception e){
-				
+				System.out.println(e.getMessage());
 			}
 		}else if(opcao == 3){
 			System.out.println("Digite o Codigo:");

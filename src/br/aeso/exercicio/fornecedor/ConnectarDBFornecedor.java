@@ -63,12 +63,26 @@ private BancoDeDados banco;
 		String sql = "UPDATE Fornecedor SET Nome = '" + fornecedor.getNome() + "' WHERE Codigo = " + fornecedor.getCodigo();
 		this.banco.atualizar(sql);
 		for(EmailFornecedor email : fornecedor.getEmails()){
-			String sqlEmail = "UPDATE Email_Fornecedor SET email = '" + email.getEmail() + "', " + email.getPrimario() + ", WHERE Codigo = " + email.getCodigo();
-			this.banco.atualizar(sqlEmail);
+                        ResultSet rs = this.banco.listar("SELECT COUNT(*) as quant FROM Email_Fornecedor WHERE Codigo = " + email.getCodigo() );
+                        rs.next();
+                        if(rs.getInt("quant") == 1){
+                            String sqlEmail = "UPDATE Email_Fornecedor SET email = '" + email.getEmail() + "', Primario = " + email.getPrimario() + " WHERE Codigo = " + email.getCodigo();
+                            this.banco.atualizar(sqlEmail);
+                        }else{
+                            String sqlEmail = "INSERT INTO Email_Fornecedor (Email, Primario, Codigo_Fornecedor) VALUES ('" + email.getEmail() + "', " + email.getPrimario() + ", " + fornecedor.getCodigo() +")";
+                            this.banco.cadastrar(sqlEmail);
+                        }
 		}
 		for(TelefoneFornecedor telefone : fornecedor.getTelefones()){
-			String sqlTelefone = "UPDATE Telefone_Fornecedor SET Telefone = '" + telefone.getTelefone() + "' WHERE Codigo = " + telefone.getCodigo();
-			this.banco.atualizar(sqlTelefone);
+                        ResultSet rs = this.banco.listar("SELECT COUNT(*) as quant FROM Telefone_Fornecedor WHERE Codigo = " + telefone.getCodigo() );
+                        rs.next();
+                        if(rs.getInt("quant") == 1){
+                            String sqlTelefone = "UPDATE Telefone_Fornecedor SET Telefone = '" + telefone.getTelefone() + "' WHERE Codigo = " + telefone.getCodigo();
+                            this.banco.atualizar(sqlTelefone);
+                        }else{
+                            String sqlTelefone = "INSERT INTO Telefone_Fornecedor (Telefone, Codigo_Fornecedor) VALUES ('" + telefone.getTelefone() + "', " + fornecedor.getCodigo() +")";
+                            this.banco.cadastrar(sqlTelefone);
+                        }
 		}
 	}
 	public void remover(Fornecedor fornecedor) throws SQLException{

@@ -25,15 +25,10 @@ public class ControladorNotaFiscal {
 	}
 
 	public void cadastrar(NotaFiscal notaFiscal) throws IllegalArgumentException, NotaFiscalJaCadastradaException, NotaFiscalNaoEncontradaException, IOException, ClassNotFoundException, SQLException, PedidoNaoEncontradoException{
-		//Imprimir as informações do cliente.
+		//Imprimir as informaï¿½ï¿½es do cliente.
 		if(notaFiscal == null){
 			throw new IllegalArgumentException();
 		}
-		
-		if(this.procurar(notaFiscal.getCodigo()) != null){
-			throw new NotaFiscalJaCadastradaException();
-		}
-		
 		this.repositorio.cadastrar(notaFiscal);
 	}
 	public void atualizar(NotaFiscal notaFiscal) throws IOException{

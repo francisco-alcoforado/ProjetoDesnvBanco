@@ -59,17 +59,31 @@ public class ConnectarDBVendedor {
 		}
 	}
 	public void atualizar(Vendedor Vendedor) throws SQLException{
-		String sql = "UPDATE Vendedor SET Nome = '" + Vendedor.getNome() + "', Senha =  " + Vendedor.getSenha() + ",CPF = '" + Vendedor.getCpf() + "', Rua = '" + 
+		String sql = "UPDATE Vendedor SET Nome = '" + Vendedor.getNome() + "', Senha =  '" + Vendedor.getSenha() + "',CPF = '" + Vendedor.getCpf() + "', Rua = '" + 
 	Vendedor.getRua() + "', Bairro = '" + Vendedor.getBairro() + "', Cidade = '" + Vendedor.getCidade() + "', CEP = '"+ Vendedor.getCEP()
 	+"', Numero = " + Vendedor.getNumero() + ", Complemento = '" + Vendedor.getComplemento() + "' WHERE Codigo = " + Vendedor.getCodigo();
 		this.banco.atualizar(sql);
 		for(EmailVendedor email : Vendedor.getEmails()){
-			String sqlEmail = "UPDATE Email_Vendedor SET email = '" + email.getEmail() + "', " + email.getPrimario() + ", WHERE Codigo = " + email.getCodigo();
-			this.banco.atualizar(sqlEmail);
+                        ResultSet rs = this.banco.listar("SELECT COUNT(*) as quant FROM Email_Vendedor WHERE Codigo = " + email.getCodigo() );
+                        rs.next();
+                        if(rs.getInt("quant") == 1){
+                            String sqlEmail = "UPDATE Email_Vendedor SET email = '" + email.getEmail() + "', Primario = " + email.getPrimario() + " WHERE Codigo = " + email.getCodigo();
+                            this.banco.atualizar(sqlEmail);
+                        }else{
+                            String sqlEmail = "INSERT INTO Email_Vendedor (Email, Primario, Codigo_Vendedor) VALUES ('" + email.getEmail() + "', " + email.getPrimario() + ", " + Vendedor.getCodigo() +")";
+                            this.banco.cadastrar(sqlEmail);
+                        }
 		}
 		for(TelefoneVendedor telefone : Vendedor.getTelefones()){
-			String sqlTelefone = "UPDATE Telefone_Vendedor SET Telefone = '" + telefone.getTelefone() + "' WHERE Codigo = " + telefone.getCodigo();
-			this.banco.atualizar(sqlTelefone);
+                        ResultSet rs = this.banco.listar("SELECT COUNT(*) as quant FROM Telefone_Vendedor WHERE Codigo = " + telefone.getCodigo() );
+                        rs.next();
+                        if(rs.getInt("quant") == 1){
+                            String sqlTelefone = "UPDATE Telefone_Vendedor SET Telefone = '" + telefone.getTelefone() + "' WHERE Codigo = " + telefone.getCodigo();
+                            this.banco.atualizar(sqlTelefone);
+                        }else{
+                            String sqlTelefone = "INSERT INTO Telefone_Vendedor (Telefone, Codigo_Vendedor) VALUES ('" + telefone.getTelefone() + "', " + Vendedor.getCodigo() +")";
+                            this.banco.cadastrar(sqlTelefone);
+                        }
 		}
 	}
 	public void remover(Vendedor Vendedor) throws SQLException{

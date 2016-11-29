@@ -75,9 +75,6 @@ public class RepositorioVendedorArrayList implements IRepositorioVendedor{
 		return VendedorResp;
 	}
 	public void atualizar(Vendedor Vendedor) throws IOException{
-		if(!this.Vendedors.contains(Vendedor)){
-			this.cadastrar(Vendedor);
-		}
 		try {
 			this.banco.atualizar(Vendedor);
 			this.listar();
