@@ -20,7 +20,7 @@ public class ControladorVendedor {
 		if(Vendedor == null){
 			throw new IllegalArgumentException();
 		}
-		//Imprimir as informações do Vendedor.
+		//Imprimir as informacoes do Vendedor.
 		this.repositorio.cadastrar(Vendedor);
 	}
 	public void atualizar(Vendedor Vendedor) throws IOException, VendedorNaoEncontradoException, SQLException{

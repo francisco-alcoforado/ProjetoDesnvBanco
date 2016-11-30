@@ -23,7 +23,7 @@ public class ControladorCliente {
 		if(cliente == null){
 			throw new IllegalArgumentException();
 		}
-		//Imprimir as informações do cliente.
+		//Imprimir as informacoes do cliente.
 		this.repositorio.cadastrar(cliente);
 	}
 	public void atualizar(Cliente cliente) throws CPFInvalidoException, IOException{

@@ -8,7 +8,7 @@ public class FornecedorJaCadastradoException extends Exception{
 	private static final long serialVersionUID = 1L;
 
 	public FornecedorJaCadastradoException() {
-		super("Fornecedor já Cadastrado!!!");
+		super("Fornecedor ja Cadastrado!!!");
 		// TODO Auto-generated constructor stub
 	}
 	

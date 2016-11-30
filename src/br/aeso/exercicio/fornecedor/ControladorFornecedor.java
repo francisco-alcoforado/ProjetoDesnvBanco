@@ -21,7 +21,7 @@ public class ControladorFornecedor {
 	}
 
 	public void cadastrar(Fornecedor fornecedor) throws IllegalArgumentException, FornecedorJaCadastradoException, CNPJInvalidoException, FornecedorNaoEncontradoException, IOException, SQLException{
-		//Imprimir as informações do cliente.
+		//Imprimir as informacoes do cliente.
 		if(fornecedor == null){
 			throw new IllegalArgumentException();
 		}

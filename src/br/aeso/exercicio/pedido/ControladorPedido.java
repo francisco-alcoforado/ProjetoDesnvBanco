@@ -24,7 +24,7 @@ public class ControladorPedido {
 	}
 
 	public void cadastrar(Pedido pedido) throws IllegalArgumentException, PedidoJaCadastradoException, PedidoNaoEncontradoException, IOException, ClassNotFoundException, SQLException, ClienteNaoExncontradoException, VendedorNaoEncontradoException{
-		//Imprimir as informa��es do cliente.
+		//Imprimir as informacoes do cliente.
 		if(pedido == null){
 			throw new IllegalArgumentException();
 		}

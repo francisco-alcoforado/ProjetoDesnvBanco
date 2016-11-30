@@ -32,7 +32,7 @@ public class ControladorVenda {
 			throw new IllegalArgumentException();
 		}
 		
-		//Imprimir as informa��es do venda.
+		//Imprimir as informacoes do venda.
 		this.repositorio.cadastrar(venda);
                 Fachada fachada = new Fachada();
                 Pedido pedido = venda.getPedido();

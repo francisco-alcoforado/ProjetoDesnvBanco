@@ -25,7 +25,7 @@ public class ControladorNotaFiscal {
 	}
 
 	public void cadastrar(NotaFiscal notaFiscal) throws IllegalArgumentException, NotaFiscalJaCadastradaException, NotaFiscalNaoEncontradaException, IOException, ClassNotFoundException, SQLException, PedidoNaoEncontradoException{
-		//Imprimir as informa��es do cliente.
+		//Imprimir as informacoes do cliente.
 		if(notaFiscal == null){
 			throw new IllegalArgumentException();
 		}

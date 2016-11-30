@@ -4,10 +4,10 @@ public class ValidarCNPJ {
 	public static boolean CNPJ(String cnpj) {
         if (!cnpj.substring(0, 1).equals("")) {
             try {
-                cnpj = cnpj.replace('.', ' ');//onde há ponto coloca espaço
-                cnpj = cnpj.replace('/', ' ');//onde há barra coloca espaço
-                cnpj = cnpj.replace('-', ' ');//onde há traço coloca espaço
-                cnpj = cnpj.replaceAll(" ", "");//retira espaço
+                cnpj = cnpj.replace('.', ' ');//onde ha ponto coloca espaco
+                cnpj = cnpj.replace('/', ' ');//onde ha barra coloca espaco
+                cnpj = cnpj.replace('-', ' ');//onde ha traï¿½o coloca espaco
+                cnpj = cnpj.replaceAll(" ", "");//retira espaco
                 int soma = 0, dig;
                 String cnpj_calc = cnpj.substring(0, 12);
                 if (cnpj.length() != 14) {
